@@ -47,6 +47,7 @@ public class TweetDetails {
     @Column
     @JsonIgnore
     private boolean status;
+    
 
    
 }
