@@ -39,7 +39,6 @@ public class TweetDetails {
     @Column
     @ElementCollection
     @CollectionTable(name="replies",joinColumns =@JoinColumn(name="id"))
-   // private List<TweetDetails> replies;
     private  List<String> replies;
     
 
