@@ -40,7 +40,7 @@ public class TweetServiceController {
 
     @Autowired
     //private KafkaTemplate<String, long> kafkaTemplate;
-    private KafkaTemplate<String,UUID> kafkaTemplate;
+    private KafkaTemplate<String,String> kafkaTemplate;
 
     @GetMapping("/all")
     @Operation(summary = "Getting all tweets",description = "A Get request for all tweets",tags = {"Tweet Service API"})
@@ -50,7 +50,7 @@ public class TweetServiceController {
             @ApiResponse(responseCode = "500",description = "Some Exception Occured")
     })
     public ResponseEntity<Object> getAllTweets(@RequestHeader("Authorization") String token) throws InvalidTokenException{
-        //log.info("inside tweet service controller to get all tweets");
+        log.info("inside tweet service controller to get all tweets");
         if(authFeign.getValidity(token).getBody().isValid()) {
             List<ResponseTweet> tweetsList=tweetservice.getAllTweets();
             if(!tweetsList.isEmpty())
@@ -59,7 +59,7 @@ public class TweetServiceController {
                 return new ResponseEntity<>("No Tweets!!!,Let's Starts with new tweet ", HttpStatus.OK);
 
         }
-        //log.info("inside tweet service controller ,token expired login again");
+        log.info("inside tweet service controller ,token expired login again");
         throw new InvalidTokenException("Token Expired or Invalid , Login again ...");
     }
 
@@ -71,7 +71,7 @@ public class TweetServiceController {
             @ApiResponse(responseCode = "500",description = "Some Exception Occured")
     })
     public ResponseEntity<Object> getTweetsByUsername(@RequestHeader("Authorization") String token,@PathVariable String username) throws InvalidTokenException{
-        //log.info("inside tweet service controller to get all tweets");
+        log.info("inside tweet service controller to get all tweets");
         if(authFeign.getValidity(token).getBody().isValid() &&authFeign.getValidity(token).getBody().getUsername().equals(username)) {
             List<ResponseTweet> tweetsList=tweetservice.getTweetsByUsername(username);
             if(!tweetsList.isEmpty())
@@ -81,7 +81,7 @@ public class TweetServiceController {
 
         }
 
-        //log.info("inside tweet service controller ,token expired login again");
+        log.info("inside tweet service controller ,token expired login again");
         throw new InvalidTokenException("Token Expired or Invalid , Login again ...");
     }
 
@@ -187,10 +187,10 @@ public class TweetServiceController {
         props.put(ProducerConfig.CLIENT_ID_CONFIG, AppConfigs.applicationID);
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, AppConfigs.bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, UUIDSerializer.class.getName());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
         if(authFeign.getValidity(token).getBody().isValid()&&authFeign.getValidity(token).getBody().getUsername().equals(username)) {
-            //kafkaTemplate.send(AppConfigs.topicName,"delete", id);
+            kafkaTemplate.send(AppConfigs.topicName,"delete", "Deleted the tweet id");
 
             return new ResponseEntity<>(tweetservice.deleteTweet(username,id),HttpStatus.OK);
         }

@@ -1,5 +1,6 @@
 package com.tweetapp.serviceImpl;
 
+import com.tweetapp.config.AppConfigs;
 import com.tweetapp.exception.TweetNotFoundException;
 import com.tweetapp.model.ResponseTweet;
 import com.tweetapp.model.TweetDetails;
@@ -10,6 +11,7 @@ import com.tweetapp.service.TweetServices;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -171,15 +173,15 @@ public class TweetServiceImpl implements TweetServices {
         tweetRepository.delete(tweet.get());
         return "Deleting Tweet Successfully";
     }
-    /*@KafkaListener(topics = AppConfigs.topicName,groupId = "delete")
-    public String deleteTweetKafka(UUID id) throws TweetNotFoundException {
-        //log.info("inside tweet service Implementation to delete tweet");
-        // Optional<TweetDetails> tweet=tweetRepository.findById(id);
+    @KafkaListener(topics = AppConfigs.topicName,groupId = "delete")
+    public String deleteTweetKafka(long id) throws TweetNotFoundException {
+        log.info("inside tweet service Implementation to delete tweet");
+         Optional<TweetDetails> tweet=tweetRepository.findById(id);
         if(!tweet.isPresent()) {
             throw new TweetNotFoundException("Tweet not found exception");
         }
         tweet.get().setStatus(false);
         tweetRepository.delete(tweet.get());
         return "Deleting Tweet Successfully";
-    }*/
+    }
 }
