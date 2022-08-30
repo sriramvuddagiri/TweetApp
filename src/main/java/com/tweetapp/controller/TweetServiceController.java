@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import com.tweetapp.service.TweetServices;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.common.serialization.UUIDSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class TweetServiceController {
 
     @Autowired
     //private KafkaTemplate<String, long> kafkaTemplate;
-    private KafkaTemplate<String,String> kafkaTemplate;
+    private KafkaTemplate<String,Long> kafkaTemplate;
 
     @GetMapping("/all")
     @Operation(summary = "Getting all tweets",description = "A Get request for all tweets",tags = {"Tweet Service API"})
@@ -183,16 +184,19 @@ public class TweetServiceController {
     public ResponseEntity<Object> deleteTweet(@RequestHeader("Authorization") String token,
                                               @PathVariable("username") String username,@PathVariable("id") long id) throws TweetNotFoundException, InvalidTokenException {
 
+    	log.info("deleted");
+		log.info("inside tweet service controller to delete tweets");
         Properties props = new Properties();
         props.put(ProducerConfig.CLIENT_ID_CONFIG, AppConfigs.applicationID);
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, AppConfigs.bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
 
         if(authFeign.getValidity(token).getBody().isValid()&&authFeign.getValidity(token).getBody().getUsername().equals(username)) {
-            kafkaTemplate.send(AppConfigs.topicName,"delete", "Deleted the tweet id");
+            kafkaTemplate.send(AppConfigs.topicName,"delete", id);
 
-            return new ResponseEntity<>(tweetservice.deleteTweet(username,id),HttpStatus.OK);
+            return new ResponseEntity<Object>("Deleted Successfully",HttpStatus.OK);
+            //return new ResponseEntity<>(tweetservice.deleteTweet(username,id),HttpStatus.OK);
         }
         throw new InvalidTokenException("Token Expired or Invalid , Login again ...");
 
