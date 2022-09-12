@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "e72bb73d-e207-468b-bcf1-4cce685e3785",
+		"name": "TweetService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All tweets",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcmlyYW0xIiwiZXhwIjoxNjYxODU4OTc3LCJpYXQiOjE2NjE4NTUzNzd9.OABFYCTsfrukhOCLlFKqzkEhiuRg2z7bLUHHRaLxMMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/apps/v1.0/tweets/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"apps",
+						"v1.0",
+						"tweets",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get tweets by User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcmlyYW0xIiwiZXhwIjoxNjYxODU4OTc3LCJpYXQiOjE2NjE4NTUzNzd9.OABFYCTsfrukhOCLlFKqzkEhiuRg2z7bLUHHRaLxMMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/apps/v1.0/tweets/sriram1/tweets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"apps",
+						"v1.0",
+						"tweets",
+						"sriram1",
+						"tweets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Tweet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcmlyYW0xIiwiZXhwIjoxNjYxODU4OTc3LCJpYXQiOjE2NjE4NTUzNzd9.OABFYCTsfrukhOCLlFKqzkEhiuRg2z7bLUHHRaLxMMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"handleName\":\"Sriram@1\",\r\n    \"Message\":\"This is my first Tweet\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/apps/v1.0/tweets/sriram1/addTweet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"apps",
+						"v1.0",
+						"tweets",
+						"sriram1",
+						"addTweet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update A Tweeet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcmlyYW0xIiwiZXhwIjoxNjYxODU4OTc3LCJpYXQiOjE2NjE4NTUzNzd9.OABFYCTsfrukhOCLlFKqzkEhiuRg2z7bLUHHRaLxMMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Message\":\"This is my updated Tweet\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/apps/v1.0/tweets/sriram1/updateTweet/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"apps",
+						"v1.0",
+						"tweets",
+						"sriram1",
+						"updateTweet",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Like A tweet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcmlyYW0xIiwiZXhwIjoxNjYxODU4OTc3LCJpYXQiOjE2NjE4NTUzNzd9.OABFYCTsfrukhOCLlFKqzkEhiuRg2z7bLUHHRaLxMMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/apps/v1.0/tweets/sriram2/like/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"apps",
+						"v1.0",
+						"tweets",
+						"sriram2",
+						"like",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unlike A Tweet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcmlyYW0xIiwiZXhwIjoxNjYxODU4OTc3LCJpYXQiOjE2NjE4NTUzNzd9.OABFYCTsfrukhOCLlFKqzkEhiuRg2z7bLUHHRaLxMMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/apps/v1.0/tweets/sriram2/Unlike/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"apps",
+						"v1.0",
+						"tweets",
+						"sriram2",
+						"Unlike",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reply A Tweet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcmlyYW0xIiwiZXhwIjoxNjYxODU4OTc3LCJpYXQiOjE2NjE4NTUzNzd9.OABFYCTsfrukhOCLlFKqzkEhiuRg2z7bLUHHRaLxMMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/apps/v1.0/tweets/sriram1/reply/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"apps",
+						"v1.0",
+						"tweets",
+						"sriram1",
+						"reply",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete A Tweet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcmlyYW0xIiwiZXhwIjoxNjYxODU4OTc3LCJpYXQiOjE2NjE4NTUzNzd9.OABFYCTsfrukhOCLlFKqzkEhiuRg2z7bLUHHRaLxMMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/apps/v1.0/tweets/sriram1/deletet/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"apps",
+						"v1.0",
+						"tweets",
+						"sriram1",
+						"deletet",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
