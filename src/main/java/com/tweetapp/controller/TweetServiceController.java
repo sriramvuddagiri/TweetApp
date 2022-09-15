@@ -40,7 +40,6 @@ public class TweetServiceController {
     TweetServices tweetservice;
 
     //@Autowired
-    //private KafkaTemplate<String, long> kafkaTemplate;
     //private KafkaTemplate<String,Long> kafkaTemplate;
 
     @GetMapping("/all")
