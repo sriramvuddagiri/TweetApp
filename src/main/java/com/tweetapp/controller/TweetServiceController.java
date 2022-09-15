@@ -39,9 +39,9 @@ public class TweetServiceController {
     @Autowired
     TweetServices tweetservice;
 
-    @Autowired
+    //@Autowired
     //private KafkaTemplate<String, long> kafkaTemplate;
-    private KafkaTemplate<String,Long> kafkaTemplate;
+    //private KafkaTemplate<String,Long> kafkaTemplate;
 
     @GetMapping("/all")
     @Operation(summary = "Getting all tweets",description = "A Get request for all tweets",tags = {"Tweet Service API"})
@@ -75,10 +75,10 @@ public class TweetServiceController {
         log.info("inside tweet service controller to get all tweets");
         if(authFeign.getValidity(token).getBody().isValid() &&authFeign.getValidity(token).getBody().getUsername().equals(username)) {
             List<ResponseTweet> tweetsList=tweetservice.getTweetsByUsername(username);
-            if(!tweetsList.isEmpty())
+            //if(!tweetsList.isEmpty())
                 return new ResponseEntity<>(tweetsList, HttpStatus.OK);
-            else
-                return new ResponseEntity<>("No Tweets!!!,Let's Starts with new tweet ", HttpStatus.OK);
+           // else
+             //   return new ResponseEntity<>("No Tweets!!!,Let's Starts with new tweet ", HttpStatus.OK);
 
         }
 
@@ -186,17 +186,17 @@ public class TweetServiceController {
 
     	log.info("deleted");
 		log.info("inside tweet service controller to delete tweets");
-        Properties props = new Properties();
+        /*Properties props = new Properties();
         props.put(ProducerConfig.CLIENT_ID_CONFIG, AppConfigs.applicationID);
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, AppConfigs.bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
-
+*/
         if(authFeign.getValidity(token).getBody().isValid()&&authFeign.getValidity(token).getBody().getUsername().equals(username)) {
-            kafkaTemplate.send(AppConfigs.topicName,"delete", id);
+           // kafkaTemplate.send(AppConfigs.topicName,"delete", id);
 
-            return new ResponseEntity<Object>("Deleted Successfully",HttpStatus.OK);
-            //return new ResponseEntity<>(tweetservice.deleteTweet(username,id),HttpStatus.OK);
+            //return new ResponseEntity<Object>("Deleted Successfully",HttpStatus.OK);
+           return new ResponseEntity<>(tweetservice.deleteTweet(username,id),HttpStatus.OK);
         }
         throw new InvalidTokenException("Token Expired or Invalid , Login again ...");
 

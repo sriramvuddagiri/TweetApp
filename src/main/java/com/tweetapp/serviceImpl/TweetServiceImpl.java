@@ -175,7 +175,7 @@ public class TweetServiceImpl implements TweetServices {
         tweetRepository.delete(tweet.get());
         return "Deleting Tweet Successfully";
     }
-    @KafkaListener(topics = AppConfigs.topicName,groupId = "delete")
+    /*@KafkaListener(topics = AppConfigs.topicName,groupId = "delete")
     public ResponseEntity<Object> deleteTweetKafka(long id) throws TweetNotFoundException {
 		log.info("inside tweet service Implementation to delete tweet");
 		Optional<TweetDetails> tweet=tweetRepository.findById(id);
