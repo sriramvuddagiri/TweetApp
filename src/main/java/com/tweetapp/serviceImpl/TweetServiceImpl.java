@@ -11,6 +11,7 @@ import com.tweetapp.service.TweetServices;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -34,6 +35,11 @@ public class TweetServiceImpl implements TweetServices {
     RestTemplate restTemplate;
 
 
+    @Value("${authservice.client.url}")
+    public String url;
+   
+    
+    
 
 
 
@@ -42,7 +48,7 @@ public class TweetServiceImpl implements TweetServices {
         List<ResponseTweet> result=new ArrayList<>();
         //RestTemplate restTemplate=new RestTemplate();
         for(TweetDetails tweet:list) {
-            UserData user=restTemplate.getForObject("http://localhost:8082/apps/v1.0/tweets/find/{username}", UserData.class,tweet.getUsername());
+            UserData user=restTemplate.getForObject(url+"/apps/v1.0/tweets/find/{username}", UserData.class,tweet.getUsername());
 
            //UserData user=userData.get(0);
             //List<UserData> user=userData.get(1).;
@@ -55,6 +61,7 @@ public class TweetServiceImpl implements TweetServices {
     }
     @Override
     public List<ResponseTweet> getAllTweets() {
+    	System.out.println(url);
         log.info("inside tweet service Implementation to get all tweets");
         List<TweetDetails> tweets=tweetRepository.findAll().stream().filter(o->o.isStatus()).collect(Collectors.toList());
         return formatData(tweets);
@@ -91,8 +98,8 @@ public class TweetServiceImpl implements TweetServices {
             Optional<TweetDetails> tweet = tweetRepository.findById(id);
             if (tweet.isPresent() && tweet.get().getUsername().equals(username)) {
                 tweet.get().setMessage(tweetDetails.getMessage());
-                tweet.get().setHandleName(tweetDetails.getHandleName());
-                tweet.get().setTime(tweetDetails.getTime());
+               // tweet.get().setHandleName(tweetDetails.getHandleName());
+                tweet.get().setTime(LocalDateTime.now());
                 tweetRepository.save(tweet.get());
                 return "Tweet " + tweet.get().getId() + " Updated Successfully ";
             }
@@ -146,7 +153,7 @@ public class TweetServiceImpl implements TweetServices {
         if(!tweet.isPresent()) {
             throw new TweetNotFoundException("Tweet not found exception");
         }
-        UserData user=restTemplate.getForObject("http://localhost:8082/apps/v1.0/tweets/find/{username}", UserData.class,username);
+        UserData user=restTemplate.getForObject(url+"/apps/v1.0/tweets/find/{username}", UserData.class,username);
         reply=user.getFirstName()+" "+user.getLastName()+"-"+reply;
         if(tweet.get().getReplies()!=null)
             tweet.get().getReplies().add(reply);
